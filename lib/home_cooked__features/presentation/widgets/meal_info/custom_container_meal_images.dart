@@ -220,7 +220,7 @@ class CustomContainerMealImages extends StatelessWidget {
           SizedBox(height: 10.h),
           GestureDetector(
             onTap: () {
-              if (mealCubit.state.homeCookModel!.status ==
+              if (mealCubit.state.homeCookModel!.status !=
                   CurrentStatus.ACCEPTED) {
                 AlertDialogUtils.showAlert(
                   firstAction: () {

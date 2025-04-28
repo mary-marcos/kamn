@@ -12,6 +12,7 @@ import 'package:kamn/home_cooked__features/data/models/home_cook_model_test.dart
 import 'package:kamn/home_cooked__features/presentation/cubits/meal_review_cubit/meal_state.dart';
 import 'package:kamn/home_cooked__features/presentation/widgets/order_options/custom_Container.dart';
 import 'package:kamn/home_cooked__features/presentation/widgets/order_options/custom_checkbox_tile.dart';
+import 'package:kamn/home_cooked__features/presentation/widgets/order_options/custom_home_state.dart';
 import 'package:kamn/home_cooked__features/presentation/widgets/order_options/custom_navbar.dart';
 import 'package:kamn/home_cooked__features/presentation/widgets/order_options/custom_order_option_buttons.dart';
 import 'package:kamn/home_cooked__features/presentation/widgets/order_options/custom_screen_header.dart';
@@ -43,26 +44,25 @@ class OrderOptionsHomecook extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomScreenHeader(
-                      //  title: "Add Home Cook Data",
-
-                      //just to make sure you access the homecook model sucess
-
                       title: "Add Home Cook Data",
-                      // cubit.state.homeCookModel?.name ?? "",
                       subTitle: "Set Up Your Home Cook Profile",
                     ),
                     const CustomNavBarOrderOptions(),
                     verticalSpace(10),
-                    Container(
-                      height: 163.h,
-                      width: 336.w,
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: AssetImage(
-                                ImageLinks.backgroundstyle,
-                              ))),
-                    ),
+
+                    // Container(
+                    //   height: 163.h,
+                    //   width: 336.w,
+                    //   decoration: const BoxDecoration(
+                    //       image: DecorationImage(
+                    //           fit: BoxFit.fill,
+                    //           image: AssetImage(
+                    //             ImageLinks.backgroundstyle,
+                    //           ))),
+                    // ),
+
+                    CustomHomeState(mealCubit: cubit),
+
                     verticalSpace(10),
                     Center(
                       child: CustomContainer(

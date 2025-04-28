@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kamn/core/routing/routes.dart';
+import 'package:kamn/home_cooked__features/presentation/screen/meal_review_screen.dart';
 import 'package:kamn/home_cooked__features/presentation/widgets/order_options/custom_button.dart';
 
 import '../../../../core/const/constants.dart';
@@ -26,6 +29,7 @@ class CustomOrderOptionsBusttons extends StatelessWidget {
       children: [
         CustomButton(
           onTap: () {
+            Navigator.pop(context);
             /////////////////////////////////////////////
             // log("hoooooomeee model: ${cubit.state.homeCookModel}");
           },
@@ -43,23 +47,36 @@ class CustomOrderOptionsBusttons extends StatelessWidget {
         horizontalSpace(10),
         CustomButton(
             onTap: () {
-              if (cubit.state.isDeliverySelected ||
-                  cubit.state.isPickupSelected) {
-                if (cubit.state.isDeliverySelected) {
-                  // validate the delivery fee text field
-                  //validate only if the delivery option is selected
-                  if (cubit.deliveryformKey.currentState!.validate()) {
+              if (cubit.state.homeCookModel!.status == CurrentStatus.ACCEPTED) {
+                if (cubit.state.isDeliverySelected ||
+                    cubit.state.isPickupSelected) {
+                  if (cubit.state.isDeliverySelected) {
+                    // validate the delivery fee text field
+                    //validate only if the delivery option is selected
+                    if (cubit.deliveryformKey.currentState!.validate()) {
+                      UpdateDeliveryData();
+                    }
+                  } else {
                     UpdateDeliveryData();
                   }
                 } else {
-                  UpdateDeliveryData();
+                  // alert if checkbox is not selected
+                  AlertDialogUtils.showAlert(
+                      context: context,
+                      title: "Error",
+                      content: "Please select one option at least!");
                 }
               } else {
-                // alert if checkbox is not selected
                 AlertDialogUtils.showAlert(
-                    context: context,
-                    title: "Error",
-                    content: "Please select one option at least!");
+                  firstAction: () {
+                    Navigator.of(context).pop();
+                  },
+                  context: context,
+                  content:
+                      "You can't add Order Option until your profile is approved.",
+                  title: "Profile not approved",
+                  firstbutton: "OK",
+                );
               }
             },
             backcolor: AppPallete.blackColor,

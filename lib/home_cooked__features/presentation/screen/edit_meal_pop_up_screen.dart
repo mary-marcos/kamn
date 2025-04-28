@@ -9,6 +9,7 @@ import 'package:kamn/healthy_food_features/data/models/category_data.dart';
 import 'package:kamn/home_cooked__features/data/models/meals_model.dart';
 import 'package:kamn/home_cooked__features/presentation/cubits/meal_review_cubit/meal_cubit.dart';
 import 'package:kamn/home_cooked__features/presentation/cubits/meal_review_cubit/meal_state.dart';
+import 'package:kamn/home_cooked__features/presentation/screen/meal_info_screen.dart';
 import 'package:kamn/home_cooked__features/presentation/widgets/Food_details_info/custom_homecook_ingredients.dart';
 import 'package:kamn/home_cooked__features/presentation/widgets/Food_details_info/custom_meal_type_selection.dart';
 import 'package:kamn/home_cooked__features/presentation/widgets/Food_details_info/custom_reqired_txt.dart';
@@ -144,8 +145,7 @@ class _EditMealPopUpScreenState extends State<EditMealPopUpScreen> {
                   BlocBuilder<MealCubit, MealState>(
                     builder: (context, state) {
                       return Center(
-                        child: CustomSpecialityDropdownWithTags(
-                        ),
+                        child: CustomSpecialityDropdownWithTags(),
                       );
                     },
                   ),
@@ -212,11 +212,22 @@ class _EditMealPopUpScreenState extends State<EditMealPopUpScreen> {
                   ),
                 );
               } else if (state.isUpdateMealSuccess) {
-                Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Meal updated successfully!")),
                 );
                 Navigator.pop(context);
+
+                // Navigator.pop(context);
+
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => BlocProvider.value(
+                //       value: mealCubit,
+                //       child: MealInfoScreen(),
+                //     ),
+                //   ),
+                // );
               } else if (state.isUpdateMealError) {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -225,34 +236,39 @@ class _EditMealPopUpScreenState extends State<EditMealPopUpScreen> {
               }
             },
             builder: (context, state) {
-              return state.isUpdateMealLoading?CircularProgressIndicator():
-               CustomSaveButton(
-                onPressed: () {
-                  print("ID: ${selectedMeal.id}");
-                  if (mealCubit.updateMealKey.currentState!.validate()) {
-                    MealModel updatedMeal = selectedMeal.copyWith(
-                      name: mealCubit.mealNameController.text,
-                      type: context.read<MealCubit>().state.selectedMealType,
-                      prepTime: int.parse(mealCubit.prepController.text),
-                      calories: int.parse(mealCubit.kcalController.text),
-                      price: double.parse(mealCubit.priceController.text),
-                      ingredients: mealCubit.state.selectedMeal!.ingredients,
-                      details: mealCubit.descriptionController.text,
-                      id: selectedMeal.id,
-                      specialtyTags: mealCubit.state.specialtyTags,
-                      imageUrls: [""],
+              return state.isUpdateMealLoading
+                  ? CircularProgressIndicator()
+                  : CustomSaveButton(
+                      onPressed: () {
+                        print("ID: ${selectedMeal.id}");
+                        if (mealCubit.updateMealKey.currentState!.validate()) {
+                          MealModel updatedMeal = selectedMeal.copyWith(
+                            name: mealCubit.mealNameController.text,
+                            type: context
+                                .read<MealCubit>()
+                                .state
+                                .selectedMealType,
+                            prepTime: int.parse(mealCubit.prepController.text),
+                            calories: int.parse(mealCubit.kcalController.text),
+                            price: double.parse(mealCubit.priceController.text),
+                            ingredients:
+                                mealCubit.state.selectedMeal!.ingredients,
+                            details: mealCubit.descriptionController.text,
+                            id: selectedMeal.id,
+                            specialtyTags: mealCubit.state.specialtyTags,
+                            imageUrls: [""],
+                          );
+                          if (updatedMeal == selectedMeal) {
+                            return;
+                          } else {
+                            mealCubit.updateMeal(updatedMeal);
+                            print(updatedMeal);
+                          }
+                        }
+                      },
+                      //good job you can do it
+                      title: Constants.save,
                     );
-                    if (updatedMeal == selectedMeal) {
-                      return;
-                    } else {
-                      mealCubit.updateMeal(updatedMeal);
-                      print(updatedMeal);
-                    }
-                  }
-                },
-                //good job you can do it
-                title: Constants.save,
-              );
             },
           ),
 

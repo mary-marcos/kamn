@@ -18,45 +18,45 @@ class CustomFoodDetailsFooter extends StatelessWidget {
     return Row(
       children: [
         ElevatedButton(
-            onPressed: () {
-              showModalBottomSheet(
-                    context: context,
-                    isScrollControlled:
-                        true, // Allows the bottom sheet to take full height
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20.r)),
-                    ),
-                    builder: (context) => BlocProvider.value(
-                          value: cubit,
-                          child: EditMealPopUpScreen(),
-                        ));
-
-            },
-            style: ElevatedButton.styleFrom(
-              fixedSize: Size(160.w, 50.h),
-              foregroundColor: AppPallete.whiteColor,
-              backgroundColor: AppPallete.orangeColor,
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.r)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(ImageLinks.editPin, width: 14.w, height: 14.h),
-                horizontalSpace(10.w),
-                Text(
-                  Constants.edit,
-                  style: TextStyles.fontCircularSpotify14WhiteMedium,
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled:
+                    true, // Allows the bottom sheet to take full height
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(20.r)),
                 ),
-              ],
-            ),
+                builder: (context) => BlocProvider.value(
+                      value: cubit,
+                      child: EditMealPopUpScreen(),
+                    ));
+          },
+          style: ElevatedButton.styleFrom(
+            fixedSize: Size(160.w, 50.h),
+            foregroundColor: AppPallete.whiteColor,
+            backgroundColor: AppPallete.orangeColor,
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.r)),
           ),
-
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(ImageLinks.editPin, width: 14.w, height: 14.h),
+              horizontalSpace(10.w),
+              Text(
+                Constants.edit,
+                style: TextStyles.fontCircularSpotify14WhiteMedium,
+              ),
+            ],
+          ),
+        ),
         Spacer(),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           style: ElevatedButton.styleFrom(
             fixedSize: Size(160.w, 50.h),
             foregroundColor: AppPallete.whiteColor,

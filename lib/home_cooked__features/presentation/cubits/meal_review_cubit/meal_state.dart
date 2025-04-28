@@ -14,7 +14,7 @@ enum MealStatus {
   updateMealLoading,
   updateMealSuccess,
   updateMealError,
-  addDeliveryOptionLoading,
+  addDeliveryOptionInitial,
   addDeliveryOptionSuccess,
   addDeliveryOptionError,
   deleteMealLoading,
@@ -40,8 +40,8 @@ extension MealReviewExtension on MealState {
   bool get isUpdateMealLoading => state == MealStatus.updateMealLoading;
   bool get isUpdateMealSuccess => state == MealStatus.updateMealSuccess;
   bool get isUpdateMealError => state == MealStatus.updateMealError;
-  bool get isAddDeliveryOptionLoading =>
-      state == MealStatus.addDeliveryOptionLoading;
+  bool get addDeliveryOptionInitial =>
+      state == MealStatus.addDeliveryOptionInitial;
   bool get isAddDeliveryOptionSuccess =>
       state == MealStatus.addDeliveryOptionSuccess;
   bool get isAddDeliveryOptionError =>

@@ -17,7 +17,10 @@ class CustomScreenHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         IconButton(
-            onPressed: () {}, icon: Icon(Icons.arrow_circle_left_rounded)),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_circle_left_rounded)),
         verticalSpace(10),
         Text(
           title,

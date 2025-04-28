@@ -41,7 +41,7 @@ class CustomTags extends StatelessWidget {
           "🏷️ Labels: ",
           style: TextStyles.fontCircularSpotify7BlackRegular,
         ),
-        // اللف التلقائي للـ tags
+
         Expanded(
           child: Wrap(
             spacing: 8,
@@ -52,8 +52,6 @@ class CustomTags extends StatelessWidget {
           ),
         ),
         horizontalSpace(4),
-
-        //  const SizedBox(width: 16.h), // مسافة بين الـ tags و الأزرار
 
         // أزرار التعديل والحذف
         Row(

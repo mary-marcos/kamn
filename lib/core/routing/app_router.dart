@@ -300,12 +300,13 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => const AddGymScreen());
       case Routes.gymScreen:
         return MaterialPageRoute(builder: (context) => const GymsScreen());
-
       case Routes.mealReview:
-        return MaterialPageRoute(
-            builder: (context) => BlocProvider(
-                create: (context) => getIt<MealCubit>(),
-                child: MealReviewScreen()));
+        return MaterialPageRoute(builder: (context) => MealReviewScreen());
+      // case Routes.mealReview:
+      //   return MaterialPageRoute(
+      //       builder: (context) => BlocProvider(
+      //           create: (context) => getIt<MealCubit>(),
+      //           child: MealReviewScreen()));
 
       default:
         return MaterialPageRoute(

@@ -206,6 +206,12 @@ class MealCubit extends Cubit<MealState> {
     ));
   }
 
+  void resetFlagsOrderOptions() {
+    emit(state.copyWith(
+      state: MealStatus.addDeliveryOptionInitial,
+    ));
+  }
+
 /////////////////
 
   Future<void> uploadDeliveryOption(HomeCookModel homeCookModel) async {
@@ -254,7 +260,7 @@ class MealCubit extends Cubit<MealState> {
     priceController.clear();
     descriptionController.clear();
     emit(state.copyWith(
-      selectedMealType : "Breakfast",
+      selectedMealType: "Breakfast",
       selectedIngredients: [],
       specialtyTags: [],
     ));
@@ -268,8 +274,25 @@ class MealCubit extends Cubit<MealState> {
     res.fold(
         (l) => emit(
             state.copyWith(state: MealStatus.updateMealError, error: l.erorr)),
-        (r) => emit(state.copyWith(
-            state: MealStatus.updateMealSuccess, selectedMeal: mealModel)));
+        (r) {
+      final List<MealModel> updatedMeals = (state.myMeals ?? []).map((meal) {
+        if (meal.id == mealModel.id) {
+          return mealModel; // replace the old meal with the updated one
+        } else {
+          return meal; // keep others unchanged
+        }
+      }).toList();
+
+      emit(state.copyWith(
+        state: MealStatus.updateMealSuccess,
+        selectedMeal: mealModel,
+        myMeals: updatedMeals,
+      ));
+    }
+        //  emit(state.copyWith(
+        //     state: MealStatus.updateMealSuccess, selectedMeal: mealModel))
+
+        );
   }
 
   void changeSelectedType(String type) {
@@ -320,26 +343,24 @@ class MealCubit extends Cubit<MealState> {
     print("Updated Ingredients: ${state.selectedIngredients}");
   }
 
+  void toggleSelectionforUpdate(String ingredientName) {
+    final updatedIngredients = List<String>.from(state.selectedIngredients);
 
-   void toggleSelectionforUpdate(String ingredientName) {
-  final updatedIngredients = List<String>.from(state.selectedIngredients);
+    if (updatedIngredients.contains(ingredientName)) {
+      updatedIngredients.remove(ingredientName);
+    } else {
+      updatedIngredients.add(ingredientName);
+    }
 
-  if (updatedIngredients.contains(ingredientName)) {
-    updatedIngredients.remove(ingredientName);
-  } else {
-    updatedIngredients.add(ingredientName);
+    final updatedMeal = state.selectedMeal!.copyWith(
+      ingredients: updatedIngredients,
+    );
+
+    emit(state.copyWith(
+      selectedIngredients: updatedIngredients,
+      selectedMeal: updatedMeal,
+    ));
+
+    print("Updated Ingredients for Update: $updatedIngredients");
   }
-
-  final updatedMeal = state.selectedMeal!.copyWith(
-    ingredients: updatedIngredients,
-  );
-
-  emit(state.copyWith(
-    selectedIngredients: updatedIngredients,
-    selectedMeal: updatedMeal,
-  ));
-
-  print("Updated Ingredients for Update: $updatedIngredients");
-}
-
 }
